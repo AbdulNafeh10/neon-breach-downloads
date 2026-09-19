@@ -1,0 +1,10 @@
+{
+  "version": "3.3.0",
+  "notes": "Shared Supabase accounts with browser play. Adds startup update checks and Game > Check for updates. Download and install updates manually.",
+  "platforms": {
+    "win32": {
+      "url": "https://github.com/AbdulNafeh10/neon-breach-downloads/releases/download/v3.3.0/NEON-BREACH-Setup-3.3.0.exe",
+      "sha256": "78da3481fd27f9d636e5b66662d275540979f106d0a90ae439078e32d3eb9c07"
+    }
+  }
+}
