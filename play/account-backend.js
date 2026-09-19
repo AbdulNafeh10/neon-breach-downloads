@@ -1,0 +1,20 @@
+import {createClient} from './vendor/supabase.js';
+import {SUPABASE_URL,SUPABASE_KEY} from './backend-config.js';
+const client=createClient(SUPABASE_URL,SUPABASE_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:false}});
+function checked(result){if(result.error)throw Error(result.error.code==='23505'?'That callsign is already taken. Choose another.':result.error.message);return result.data;}
+async function user(){const data=checked(await client.auth.getUser());if(!data.user)throw Error('Sign in required.');return data.user;}
+async function profile(){const u=await user();let p=checked(await client.from('profiles').select('*').eq('id',u.id).maybeSingle());if(!p){const username=u.user_metadata.callsign; if(!username)throw Error('Choose a callsign to finish creating your profile.');p=checked(await client.from('profiles').insert({id:u.id,username}).select().single());}return {id:p.id,username:p.username,skin:p.skin,settings:p.settings,stats:p.stats};}
+export async function accountApi(path,options={}){
+ const body=options.body?JSON.parse(options.body):{};
+ if(path==='/api/auth/signup'){if(!/^[A-Za-z0-9_-]{3,16}$/.test(body.username))throw Error('Use a callsign with 3–16 letters, numbers, underscores or hyphens.');if(body.password.length<10)throw Error('Use a password of at least 10 characters.');const current=(await client.auth.getSession()).data.session;if(current?.user?.email?.toLowerCase()===body.email.toLowerCase()){const exists=checked(await client.from('profiles').select('id').eq('id',current.user.id).maybeSingle());if(!exists){checked(await client.auth.updateUser({data:{callsign:body.username}}));return {user:await profile()};}}const data=checked(await client.auth.signUp({email:body.email,password:body.password,options:{data:{callsign:body.username}}}));if(!data.session)throw Error('Check your email to finish signing up.');return {user:await profile()};}
+ if(path==='/api/auth/login'){checked(await client.auth.signInWithPassword({email:body.email,password:body.password}));return {user:await profile()};}
+ if(path==='/api/auth/logout'){checked(await client.auth.signOut());return {ok:true};}
+ if(path==='/api/me')return {user:await profile()};
+ const u=await user();
+ if(path==='/api/profile'){const patch={};if(body.skin!==undefined)patch.skin=body.skin;if(body.settings)patch.settings=body.settings;if(body.stats)patch.stats=body.stats;checked(await client.from('profiles').update(patch).eq('id',u.id));return {user:await profile()};}
+ if(path==='/api/presence'){checked(await client.from('profiles').update({seen_at:new Date().toISOString()}).eq('id',u.id));return {ok:true};}
+ if(path==='/api/friends'){const rows=checked(await client.from('friendships').select('*'));const people=checked(await client.rpc('friend_profiles'));const invites=checked(await client.from('room_invites').select('*').order('created_at',{ascending:false}));const names=new Map(people.map(p=>[p.id,p]));return {friends:rows.map(f=>{const id=f.sender===u.id?f.receiver:f.sender;return {...names.get(id),id,requestId:f.id,state:f.state,direction:f.sender===u.id?'outgoing':'incoming'};}),invites:invites.map(i=>({...i,sender:names.get(i.sender)?.username||'Friend'}))};}
+ if(path==='/api/friends/request'||path==='/api/friends/invite'){const other=checked(await client.rpc('player_lookup',{callsign:body.username}))[0];if(!other||other.id===u.id)throw Error('Player not found.');if(path.endsWith('/request'))checked(await client.from('friendships').insert({sender:u.id,receiver:other.id}));else checked(await client.from('room_invites').insert({sender:u.id,receiver:other.id,room_code:body.room}));return {ok:true};}
+ if(path==='/api/friends/respond'){const query=client.from('friendships');const result=body.accept?await query.update({state:'accepted'}).eq('sender',body.id).eq('receiver',u.id).eq('state','pending').select():await query.delete().eq('sender',body.id).eq('receiver',u.id).eq('state','pending').select();if(!checked(result).length)throw Error('That request is no longer available.');return {ok:true};}
+ throw Error('Unknown account action.');
+}

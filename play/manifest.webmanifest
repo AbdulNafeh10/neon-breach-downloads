@@ -1,0 +1,25 @@
+{
+  "id": "./",
+  "name": "NEON BREACH — Arena",
+  "short_name": "NEON BREACH",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#09131d",
+  "theme_color": "#09131d",
+  "description": "Arena FPS with offline solo practice and 2–8 player online rooms.",
+  "icons": [
+    {
+      "src": "./icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
