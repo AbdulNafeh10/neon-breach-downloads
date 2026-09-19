@@ -1,6 +1,6 @@
 import {createClient} from './vendor/supabase.js';
 import {SUPABASE_URL,SUPABASE_KEY} from './backend-config.js';
-const client=createClient(SUPABASE_URL,SUPABASE_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:false}});
+const client=createClient(SUPABASE_URL,SUPABASE_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:false},global:{fetch:(url,options={})=>fetch(url,{...options,signal:options.signal?AbortSignal.any([options.signal,AbortSignal.timeout(10000)]):AbortSignal.timeout(10000)})}});
 function checked(result){if(result.error)throw Error(result.error.code==='23505'?'That callsign is already taken. Choose another.':result.error.message);return result.data;}
 async function user(){const data=checked(await client.auth.getUser());if(!data.user)throw Error('Sign in required.');return data.user;}
 async function profile(){const u=await user();let p=checked(await client.from('profiles').select('*').eq('id',u.id).maybeSingle());if(!p){const username=u.user_metadata.callsign; if(!username)throw Error('Choose a callsign to finish creating your profile.');p=checked(await client.from('profiles').insert({id:u.id,username}).select().single());}return {id:p.id,username:p.username,skin:p.skin,settings:p.settings,stats:p.stats};}

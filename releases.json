@@ -1,10 +1,10 @@
 {
-  "version": "3.3.0",
-  "notes": "Shared Supabase accounts with browser play. Adds startup update checks and Game > Check for updates. Download and install updates manually.",
+  "version": "3.4.0",
+  "notes": "Fixed invite loading states, room-lobby invitations and direct joining. New map and weapon previews, Profile / Locker / Friends tabs, five skin previews, three weapon finishes and reticle color choices.",
   "platforms": {
     "win32": {
-      "url": "https://github.com/AbdulNafeh10/neon-breach-downloads/releases/download/v3.3.0/NEON-BREACH-Setup-3.3.0.exe",
-      "sha256": "78da3481fd27f9d636e5b66662d275540979f106d0a90ae439078e32d3eb9c07"
+      "url": "https://github.com/AbdulNafeh10/neon-breach-downloads/releases/download/v3.4.0/NEON-BREACH-Setup-3.4.0.exe",
+      "sha256": "e8046f692d0d3b690680134beeea464f8fa91170d4f1227aba174dcef0d9256b"
     }
   }
 }

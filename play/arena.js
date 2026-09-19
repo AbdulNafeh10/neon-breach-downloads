@@ -100,5 +100,5 @@ export function makeViewWeapons(){
  box(gun,.03,-.17,.11,.13,.13,.22,rubber).rotation.x=.3;box(gun,.07,-.25,.27,.17,.16,.27,dark).rotation.set(.3,-.2,-.15);box(gun,-.04,-.12,-.32,.14,.1,.17,rubber);box(gun,-.11,-.22,-.18,.15,.15,.31,steel).rotation.set(-.5,0,-.3);box(gun,-.1,-.23,-.02,.09,.018,.055,glow);
  const flash=new T.Group();flash.position.set(0,.015,muzzleZ-.11);gun.add(flash);const flare=new T.Mesh(new T.ConeGeometry(.095,.35,7),new T.MeshBasicMaterial({color:0xffe9aa,transparent:true,opacity:.85,blending:T.AdditiveBlending,depthWrite:false}));flare.rotation.x=-Math.PI/2;flash.add(flare);const core=new T.Mesh(new T.SphereGeometry(.05,8,8),new T.MeshBasicMaterial({color:0xffffff}));flash.add(core);flash.visible=false;const lamp=new T.PointLight(0xffbb78,0,3);flash.add(lamp);
  guns.push({group:gun,flash,lamp,muzzleZ});gun.visible=i===0;}
- return {scene,camera,rig,guns};
+ return {scene,camera,rig,guns,setFinish(name){const colors={standard:0x728d91,gold:0xbc9358,arctic:0xe1eef3};steel.color.setHex(colors[name]||colors.standard);}};
 }
