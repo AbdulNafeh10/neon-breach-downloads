@@ -1,10 +1,10 @@
 {
-  "version": "3.9.0",
-  "notes": "Combat feedback: bright travelling bullet trails, stronger shotgun and hand-cannon recoil and firing sounds, confirmed damage numbers and shield-break cues. Default 100 health + 100 shield; configure health, shield and health regeneration in Match Setup > Rules. Online players must use the same version.",
+  "version": "3.10.0",
+  "notes": "Wider, consistent shotgun spread; stronger weapon recoil and settling; revised firing sounds; reload progress and low-ammo warnings; directional incoming damage; attacker and weapon recap with respawn countdown. Everyone in a room must update.",
   "platforms": {
     "win32": {
-      "url": "https://github.com/AbdulNafeh10/neon-breach-downloads/releases/download/v3.9.0/NEON-BREACH-Setup-3.9.0.exe",
-      "sha256": "d10ce74a91772610488bb3e317e1f4d90cb18c399f43b839fa3bd143f2ef1921"
+      "url": "https://github.com/AbdulNafeh10/neon-breach-downloads/releases/download/v3.10.0/NEON-BREACH-Setup-3.10.0.exe",
+      "sha256": "ee08f58c2281bd5235477897c811f3ebacedd6e6784b8442b0dc2a519160c067"
     }
   }
 }

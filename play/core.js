@@ -3,11 +3,13 @@ import {SPAWNS} from './rules.js';
 import {combatProfile,JUMP_PADS} from './systems.js';
 export const WEAPONS = [
  {name:'VXR-30 ASSAULT RIFLE',short:'VXR-30',cap:30,damage:24,head:1.7,rate:.105,reload:1.65,spread:.005,pellets:1,recoil:.019,auto:true,ads:57,color:0x9cffe3},
- {name:'BREAKER COMBAT SHOTGUN',short:'BREAKER',cap:8,damage:13,head:1.3,rate:.74,reload:2,spread:.043,pellets:9,recoil:.065,auto:false,ads:65,color:0xffb77e},
+ {name:'BREAKER COMBAT SHOTGUN',short:'BREAKER',cap:8,damage:13,head:1.3,rate:.74,reload:2,spread:.056,pellets:9,recoil:.065,auto:false,ads:65,color:0xffb77e},
  {name:'LONGBOW PRECISION RIFLE',short:'LONGBOW',cap:5,damage:80,head:1.6,rate:1.08,reload:2.25,spread:.001,pellets:1,recoil:.055,auto:false,ads:32,color:0xb7a2ff},
  {name:"VOLT COMPACT SMG",short:"VOLT",cap:36,damage:15,head:1.5,rate:.065,reload:1.4,spread:.012,pellets:1,recoil:.012,auto:true,ads:62,color:0x79d5ff},
  {name:"WARDEN HEAVY PISTOL",short:"WARDEN",cap:12,damage:38,head:1.7,rate:.3,reload:1.25,spread:.003,pellets:1,recoil:.038,auto:false,ads:52,color:0xffdb83}
 ];
+export function weaponSpread(gun,aim){return WEAPONS[gun].spread*(aim?(gun===1?.6:.43):1);}
+export function pelletPattern(gun,seed,aim){let value=seed|0;const random=()=>{value=(Math.imul(value,1664525)+1013904223)|0;return (value>>>0)/4294967296;},spread=weaponSpread(gun,aim);if(gun!==1)return [[(random()-.5)*spread*2,(random()-.5)*spread*2]];const rotation=random()*Math.PI*2;return Array.from({length:9},(_,i)=>{const angle=rotation+i*Math.PI/4,radius=i===0?spread*.08:spread*(.78+random()*.22);return [Math.cos(angle)*radius,Math.sin(angle)*radius];});}
 export const WEAPON_RANGES=[[35,80,.65],[8,30,.2],[70,140,.85],[12,32,.5],[20,50,.6]];
 export function damageAtRange(gun,distance){const [near,far,floor]=WEAPON_RANGES[gun],t=Math.max(0,Math.min(1,(distance-near)/(far-near)));return WEAPONS[gun].damage*(1-t*(1-floor));}
 export const BLOCKS=[];
