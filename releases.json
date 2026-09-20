@@ -1,10 +1,10 @@
 {
-  "version": "3.7.0",
-  "notes": "After Action: rebuilt gun models and handling, heavier Warden, pump/bolt/slide cycles, new firing and overall game SFX, clear ADS and fixed sniper tracer. Menu music fades to a subtle combat mix; win/loss cues. Full final scoreboard -> Continue -> room -> ready up again. Everyone must update to 3.7.",
+  "version": "3.8.0",
+  "notes": "Unified Menus: one shared Match Setup editor; saved mode, map, player limit and rules carry into rooms and practice. Save/Cancel, preserved drafts, read-only guest rules, a single allowed-weapons grid, and keyboard/PS5/auto-specific controls layouts.",
   "platforms": {
     "win32": {
-      "url": "https://github.com/AbdulNafeh10/neon-breach-downloads/releases/download/v3.7.0/NEON-BREACH-Setup-3.7.0.exe",
-      "sha256": "e5bf46bcf19d1a1f4af06341c7d24ba97637da3e1ccf586906079037752e843f"
+      "url": "https://github.com/AbdulNafeh10/neon-breach-downloads/releases/download/v3.8.0/NEON-BREACH-Setup-3.8.0.exe",
+      "sha256": "94433b81caf206ce79a741a026cb0dbb7920cef597acfd72307d0a19e793a084"
     }
   }
 }
