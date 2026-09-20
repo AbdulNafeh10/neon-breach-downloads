@@ -3,6 +3,7 @@ import {MODES,MAPS,normalizeRules} from './rules.js';
 const $=id=>document.getElementById(id);
 const select=(id,label,options)=>`<div><label for="${id}">${label}</label><select id="${id}">${options.map(([v,t])=>`<option value="${v}">${t}</option>`).join('')}</select></div>`;
 export function mountRoomHub(link){
+ for(const id of ['room-map','live-map'])$(id).innerHTML=Object.entries(MAPS).map(([v,t])=>`<option value="${v}">${t}</option>`).join('');
  for(const id of ['room-mode','live-mode'])$(id).innerHTML=Object.entries(MODES).map(([v,t])=>`<option value="${v}">${t}</option>`).join('');
  $('room-capacity').innerHTML=Array.from({length:7},(_,i)=>`<option value="${i+2}">${i+2} players maximum</option>`).join('');$('room-mode').onchange=()=>{const duel=$('room-mode').value==='duel';$('room-capacity').disabled=duel;if(duel)$('room-capacity').value='2';};$('room-mode').onchange();
  const panel=document.querySelector('.play-panel'),setup=document.createElement('section'),actions=document.createElement('section');setup.className='setup-card';actions.className='action-card';setup.innerHTML='<p class="overline">MATCH SETUP</p><h2>Your next match.</h2>';actions.innerHTML='<p class="overline">PLAY</p><h2>Ready to play?</h2>';

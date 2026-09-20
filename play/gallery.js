@@ -1,7 +1,7 @@
 import {WEAPONS,WEAPON_RANGES} from './core.js';
 import {MAPS} from './rules.js';
 export const SKINS={mint:'Mint circuit',solar:'Solar flare',violet:'Violet pulse',crimson:'Crimson vector',carbon:'Carbon ghost'};
-const descriptions={rift:'Balanced sightlines, a reactor centerpiece, and elevated flanking routes.',foundry:'Four rust-colored machine rooms. Wide doorways and a central loading aisle reward close-range pushes.',citadel:'A moonlit courtyard surrounded by four tall towers and staggered gates. Long views meet protected flanks.'};
+const descriptions={archive:'48 × 38m · A white-and-teal research archive with enclosed stacks, covered labs and a bright central atrium. Tight corners favor deliberate close-range pushes.',dockyard:'48 × 64m · A storm-blue freight terminal. Long cargo lanes, container cover and raised loading gantries create wide flanks and changing engagement ranges.',rift:'Balanced sightlines, a reactor centerpiece, and elevated flanking routes.',foundry:'48 × 48m · Four machine rooms, twin upper galleries and four staircases. Fight underneath the galleries or flank above the loading aisle.',citadel:'64 × 38m · Wide courtyards, two keeps and an elevated skybridge. Cross above the arena or slip through the underpass.'};
 const $=id=>document.getElementById(id);
 export function mountGallery(){
  const modal=document.createElement('dialog');modal.id='collection';modal.innerHTML='<div class="settings-heading"><div><p class="overline">FIELD MANUAL</p><h2 id="collection-title">Armory.</h2></div><button type="button" class="icon-button" aria-label="Close previews">×</button></div><p id="collection-copy" class="status"></p><div class="preview-grid" id="collection-grid"></div>';

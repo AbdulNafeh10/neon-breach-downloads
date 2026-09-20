@@ -1,4 +1,4 @@
-import {distinctLayouts} from './map-layouts.js';
+import {distinctLayouts,MAP_BOUNDS} from './map-layouts.js';
 import {SPAWNS} from './rules.js';
 import {combatProfile,JUMP_PADS} from './systems.js';
 export const WEAPONS = [
@@ -32,7 +32,8 @@ export const MAP_EXTRAS={rift:[],foundry:[{x:-3,z:-11,w:7,h:2.1,d:1.8,kind:'crat
 export const MAP_LAYOUTS={rift:baseBlocks,foundry:[...baseBlocks.filter(b=>['reactor','platform','step'].includes(b.kind)||b.y>0),...[-1,1].flatMap(s=>[{x:s*7,z:s*5,w:2,h:3.4,d:9,y:0,kind:'bastion'},{x:s*7,z:-s*11,w:5,h:1.55,d:2,y:0,kind:'crate'},{x:s*12,z:0,w:3,h:2.1,d:3,y:0,kind:'crate'}])],citadel:[...baseBlocks.filter(b=>['reactor','platform','step'].includes(b.kind)||b.y>0),...[-1,1].flatMap(s=>[{x:s*5.5,z:0,w:1.8,h:3.4,d:8,y:0,kind:'bastion'},{x:0,z:s*12,w:10,h:1.4,d:1.8,y:0,kind:'cover'},{x:s*11,z:s*11,w:3,h:2,d:3,y:0,kind:'pillar'},{x:s*11,z:-s*11,w:3,h:2,d:3,y:0,kind:'pillar'}])]};
 Object.assign(MAP_LAYOUTS,distinctLayouts(baseBlocks));
 export let activeMap='rift';
-export function setArenaMap(map='rift'){activeMap=Object.hasOwn(MAP_EXTRAS,map)?map:'rift';BLOCKS.splice(0,BLOCKS.length,...MAP_LAYOUTS[activeMap].map(b=>({...b})));}
+export const arenaBounds={...MAP_BOUNDS.rift};
+export function setArenaMap(map='rift'){activeMap=Object.hasOwn(MAP_LAYOUTS,map)?map:'rift';Object.assign(arenaBounds,MAP_BOUNDS[activeMap]);BLOCKS.splice(0,BLOCKS.length,...MAP_LAYOUTS[activeMap].map(b=>({...b})));}
 export const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
 export const lerp=(a,b,t)=>a+(b-a)*t;
 export const angleLerp=(a,b,t)=>a+Math.atan2(Math.sin(b-a),Math.cos(b-a))*t;
@@ -52,7 +53,7 @@ export function movePlayer(p,input,dt){
  p.vx=lerp(p.vx,targetX,1-Math.exp(-acc*dt));p.vz=lerp(p.vz,targetZ,1-Math.exp(-acc*dt));
  if(p.dash>0){p.vx=targetX;p.vz=targetZ;}const steps=Math.max(1,Math.ceil(Math.hypot(p.vx,p.vz)*dt/.18));
  for(let step=0;step<steps;step++){
-  p.x=clamp(p.x+p.vx*dt/steps,-23.5,23.5);p.z=clamp(p.z+p.vz*dt/steps,-18.5,18.5);
+  p.x=clamp(p.x+p.vx*dt/steps,-arenaBounds.x+.5,arenaBounds.x-.5);p.z=clamp(p.z+p.vz*dt/steps,-arenaBounds.z+.5,arenaBounds.z-.5);
   for(const b of BLOCKS){if(!overlapXZ(p,b)||p.y>=b.y+b.h-.04||p.y+p.height<=b.y+.04)continue;
    const top=b.y+b.h;if(p.grounded&&top-p.y<=.31&&top>=p.y){p.y=top;continue;}
    const ds=[p.x-(b.x-b.w/2-.34),(b.x+b.w/2+.34)-p.x,p.z-(b.z-b.d/2-.34),(b.z+b.d/2+.34)-p.z];
@@ -60,6 +61,8 @@ export function movePlayer(p,input,dt){
   }
  }
  const oldY=p.y;p.vy-=22*dt;p.y+=p.vy*dt;let ground=0;
+ for(const b of BLOCKS)if(p.vy>0&&overlapXZ(p,b,.29)&&oldY+p.height<=b.y+.04&&p.y+p.height>b.y){p.y=b.y-p.height;p.vy=0;}
+
  for(const b of BLOCKS)if(overlapXZ(p,b,.29)&&oldY>=b.y+b.h-.08)ground=Math.max(ground,b.y+b.h);
  if(p.y<=ground&&p.vy<=0){p.y=ground;p.vy=0;p.grounded=true}else{p.grounded=false}
  p.padCd=Math.max(0,p.padCd-dt);if(p.padCd<=0&&p.grounded&&p.y<.2&&JUMP_PADS.some(a=>Math.hypot(p.x-a.x,p.z-a.z)<.95)){p.vy=12.5;p.grounded=false;p.padCd=1.2;p.slide=0;}
@@ -67,9 +70,9 @@ export function movePlayer(p,input,dt){
 }
 export function resetLife(p){const score=p.score,hill=p.hill,stats=p.stats,side=p.side,team=p.team,spawnSlot=p.spawnSlot,life=p.life+1;Object.assign(p,makePlayer(side,spawnSlot));p.team=team;p.score=score;p.hill=hill;p.stats=stats;p.life=life;p.shield=1.5;}
 export function packetPlayer(p){return {x:p.x,y:p.y,z:p.z,yaw:p.yaw,pitch:p.pitch,gun:p.gun,slide:p.slide>0,eye:p.eye,grounded:p.grounded,life:p.life};}
-export function validState(p){return p&&['x','y','z','yaw','pitch'].every(k=>Number.isFinite(p[k]))&&Math.abs(p.x)<26&&Math.abs(p.z)<21&&p.y>=-.1&&p.y<12&&Math.abs(p.pitch)<2&&Number.isInteger(p.gun)&&p.gun>=0&&p.gun<WEAPONS.length;}
+export function validState(p){return p&&['x','y','z','yaw','pitch'].every(k=>Number.isFinite(p[k]))&&Math.abs(p.x)<arenaBounds.x+2&&Math.abs(p.z)<arenaBounds.z+2&&p.y>=-.1&&p.y<12&&Math.abs(p.pitch)<2&&Number.isInteger(p.gun)&&p.gun>=0&&p.gun<WEAPONS.length;}
 export function rayBox(origin,dir,b){let near=0,far=200;for(const [axis,size]of[['x','w'],['y','h'],['z','d']]){const min=axis==='y'?b.y:b[axis]-b[size]/2,max=axis==='y'?b.y+b.h:b[axis]+b[size]/2;const o=origin[axis],d=dir[axis];if(Math.abs(d)<1e-8){if(o<min||o>max)return Infinity;continue}let a=(min-o)/d,c=(max-o)/d;if(a>c)[a,c]=[c,a];near=Math.max(near,a);far=Math.min(far,c);if(near>far)return Infinity}return near;}
-export function wallDistance(origin,dir){let d=150;for(const b of BLOCKS)d=Math.min(d,rayBox(origin,dir,b));for(const b of [{x:0,z:20,w:50,h:7,d:1,y:0},{x:0,z:-20,w:50,h:7,d:1,y:0},{x:25,z:0,w:1,h:7,d:40,y:0},{x:-25,z:0,w:1,h:7,d:40,y:0}])d=Math.min(d,rayBox(origin,dir,b));if(dir.y<0)d=Math.min(d,-origin.y/dir.y);return d;}
+export function wallDistance(origin,dir){let d=150;for(const b of BLOCKS)d=Math.min(d,rayBox(origin,dir,b));for(const b of [{x:0,z:arenaBounds.z+1,w:arenaBounds.x*2+2,h:7,d:1,y:0},{x:0,z:-arenaBounds.z-1,w:arenaBounds.x*2+2,h:7,d:1,y:0},{x:arenaBounds.x+1,z:0,w:1,h:7,d:arenaBounds.z*2+2,y:0},{x:-arenaBounds.x-1,z:0,w:1,h:7,d:arenaBounds.z*2+2,y:0}])d=Math.min(d,rayBox(origin,dir,b));if(dir.y<0)d=Math.min(d,-origin.y/dir.y);return d;}
 export function raySphere(o,d,c,r){const x=o.x-c.x,y=o.y-c.y,z=o.z-c.z,b=x*d.x+y*d.y+z*d.z,c2=x*x+y*y+z*z-r*r,disc=b*b-c2;if(disc<0)return Infinity;const t=-b-Math.sqrt(disc);return t>=0?t:Infinity;}
 export function hitPlayer(origin,dir,p){if(p.dead>0)return null;const eye=p.slide>0?.85:1.65;const head=raySphere(origin,dir,{x:p.x,y:p.y+eye-.03,z:p.z},.255);const body=rayBox(origin,dir,{x:p.x,y:p.y+.12,z:p.z,w:.7,h:eye-.32,d:.58});const dist=Math.min(head,body);if(!Number.isFinite(dist)||dist>wallDistance(origin,dir)+.01)return null;return {distance:dist,head:head<=body};}
 export function direction(yaw,pitch){return {x:-Math.sin(yaw)*Math.cos(pitch),y:Math.sin(pitch),z:-Math.cos(yaw)*Math.cos(pitch)};}

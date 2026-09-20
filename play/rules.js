@@ -1,5 +1,5 @@
 export const MODES={duel:'1v1 Duel',dm:'Deathmatch',hill:'King of the Hill',tdm:'Team Deathmatch',instagib:'Instagib',shotgun:'Shotgun Skirmish'};
-export const MAPS={rift:'Orbital Rift',foundry:'Solar Foundry',citadel:'Eclipse Citadel'};
+export const MAPS={rift:'Orbital Rift',foundry:'Solar Foundry',citadel:'Eclipse Citadel',archive:'Prism Archive',dockyard:'Tempest Dockyard'};
 export const TEAM_NAMES=['CYAN','AMBER'];
 export const HILLS=[{x:0,z:9},{x:12,z:7},{x:0,z:-9},{x:-12,z:-7}];
 export const SPAWNS=[[0,16],[0,-16],[-11,16],[11,-16],[11,16],[-11,-16],[-22,12],[22,-12]];
