@@ -1,10 +1,10 @@
 {
-  "version": "3.8.0",
-  "notes": "Unified Menus: one shared Match Setup editor; saved mode, map, player limit and rules carry into rooms and practice. Save/Cancel, preserved drafts, read-only guest rules, a single allowed-weapons grid, and keyboard/PS5/auto-specific controls layouts.",
+  "version": "3.9.0",
+  "notes": "Combat feedback: bright travelling bullet trails, stronger shotgun and hand-cannon recoil and firing sounds, confirmed damage numbers and shield-break cues. Default 100 health + 100 shield; configure health, shield and health regeneration in Match Setup > Rules. Online players must use the same version.",
   "platforms": {
     "win32": {
-      "url": "https://github.com/AbdulNafeh10/neon-breach-downloads/releases/download/v3.8.0/NEON-BREACH-Setup-3.8.0.exe",
-      "sha256": "94433b81caf206ce79a741a026cb0dbb7920cef597acfd72307d0a19e793a084"
+      "url": "https://github.com/AbdulNafeh10/neon-breach-downloads/releases/download/v3.9.0/NEON-BREACH-Setup-3.9.0.exe",
+      "sha256": "d10ce74a91772610488bb3e317e1f4d90cb18c399f43b839fa3bd143f2ef1921"
     }
   }
 }

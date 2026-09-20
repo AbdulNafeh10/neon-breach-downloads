@@ -1,10 +1,10 @@
 // Deliberately different handling envelopes; camera recoil remains bounded separately.
 export const HANDLING=[
  {adsSpeed:13,recovery:12,kick:.065,tilt:.10,decay:15,roll:-.014},
- {adsSpeed:9,recovery:8,kick:.18,tilt:.23,decay:8,roll:.045},
+ {adsSpeed:9,recovery:8,kick:.23,tilt:.3,decay:7,roll:.045},
  {adsSpeed:7,recovery:7,kick:.16,tilt:.16,decay:7,roll:-.025},
  {adsSpeed:18,recovery:17,kick:.038,tilt:.06,decay:21,roll:-.01},
- {adsSpeed:10,recovery:8,kick:.15,tilt:.28,decay:9,roll:.065}
+ {adsSpeed:10,recovery:8,kick:.19,tilt:.32,decay:8,roll:.065}
 ];
 const pulse=(age,start,length)=>age<start||age>start+length?0:Math.sin((age-start)/length*Math.PI);
 export function weaponPose(index,{ads=0,shotAge=10,reload=0,reloading=false,equip=0}={}){

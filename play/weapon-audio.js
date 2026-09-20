@@ -10,7 +10,7 @@ function voices(context,noise,destination,volume,pan){
 export function weaponSound(context,noise,destination,index,volume=1,pan=0,environment='rift'){
  const {tone,burst}=voices(context,noise,destination,volume,pan);
  // Caliber-specific attack/body envelopes, not pitched laser oscillators.
- const profiles=[{crack:5400,body:145,tail:.15,power:.36},{crack:3900,body:92,tail:.42,power:.65},{crack:7600,body:115,tail:.36,power:.56},{crack:6100,body:230,tail:.075,power:.23},{crack:4600,body:105,tail:.28,power:.57}];const p=profiles[index];
+ const profiles=[{crack:5400,body:145,tail:.15,power:.36},{crack:3900,body:78,tail:.46,power:.72},{crack:7600,body:115,tail:.36,power:.56},{crack:6100,body:230,tail:.075,power:.23},{crack:4600,body:95,tail:.3,power:.62}];const p=profiles[index];
  burst(p.crack,0,index===3?.024:.045,p.power,'highpass');burst(1600,0,p.tail,p.power*.8,'bandpass');burst(370,.006,p.tail*.9,p.power*.65);tone(p.body,p.body*.55,0,index===3?.045:.13,p.power*.5);
  // Delayed reflections distinguish the metal foundry and the wider outdoor arenas.
  const reflections=environment==='foundry'?[.055,.12]:environment==='citadel'?[.085,.19]:[.11];for(const [i,d]of reflections.entries())burst(1150,d,p.tail*.8,p.power*.14/(i+1),'bandpass');
@@ -22,7 +22,8 @@ export function weaponSound(context,noise,destination,index,volume=1,pan=0,envir
 }
 export function gameSound(context,noise,destination,kind,volume=1,pan=0,{gun=0,stage=0,map='rift'}={}){
  const {tone,burst}=voices(context,noise,destination,volume,pan);
- if(kind==='step'){burst(map==='foundry'?2300:map==='citadel'?950:1400,0,.07,.07,'bandpass');tone(map==='foundry'?160:95,65,0,.055,.04);burst(4000,.018,.035,.024,'highpass');}
+ if(kind==='shieldbreak'){burst(6400,0,.16,.22,'highpass');for(const [i,f]of [1400,2100,2900].entries())tone(f,f*.45,i*.018,.18,.06,'triangle');}
+ else if(kind==='step'){burst(map==='foundry'?2300:map==='citadel'?950:1400,0,.07,.07,'bandpass');tone(map==='foundry'?160:95,65,0,.055,.04);burst(4000,.018,.035,.024,'highpass');}
  else if(kind==='reload'){const weight=gun===1||gun===4?.8:.5;if(stage===0){burst(2400,0,.045,.16,'bandpass');tone(460,390,0,.025,.035,'triangle');}else if(stage===1){burst(850,0,.09,.16*weight);burst(3300,.06,.03,.15,'bandpass');}else{burst(1800,0,.065,.21);burst(5200,.045,.035,.13,'highpass');tone(210,160,.01,.04,.05);}}
  else if(kind==='hit'||kind==='head'){burst(4100,0,.025,.09,'bandpass');tone(kind==='head'?1700:1050,kind==='head'?1400:850,0,.045,.06,'triangle');if(kind==='head')tone(2100,1900,.035,.065,.045);}
  else if(kind==='hurt'){burst(480,0,.16,.21);tone(75,48,0,.13,.12);}
