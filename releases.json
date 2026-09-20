@@ -1,10 +1,10 @@
 {
-  "version": "3.5.0",
-  "notes": "Squad Update: five weapons, starting loadouts and host weapon pools; room chat, six modes and custom rules; distinct maps, opt-in profiles and in-game Windows updates. All room players must update to 3.5.",
+  "version": "3.5.1",
+  "notes": "Visual Menus: six mode scenes, visual settings and weapon choices, Arena / Rules / Weapons room tabs, preserved room drafts, quick-start guide and achievement progress. All existing menus remain.",
   "platforms": {
     "win32": {
-      "url": "https://github.com/AbdulNafeh10/neon-breach-downloads/releases/download/v3.5.0/NEON-BREACH-Setup-3.5.0.exe",
-      "sha256": "0774ba8a475f7e52ba797f3b3b5eac35daf51bb9e3f68088b9ba992a617d23de"
+      "url": "https://github.com/AbdulNafeh10/neon-breach-downloads/releases/download/v3.5.1/NEON-BREACH-Setup-3.5.1.exe",
+      "sha256": "b9e61b777e51443d06517ea5fad4748deb7ee3564603c7aa207459dd679697d8"
     }
   }
 }

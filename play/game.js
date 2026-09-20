@@ -1,3 +1,4 @@
+import {mountVisualChoices} from './visual-choices.js';
 import {nextWaypoint} from './bot-navigation.js';
 import {organizeMenus} from './menu-shell.js';
 import {weaponSound} from './weapon-audio.js';
@@ -251,7 +252,7 @@ function renderRoom(){
  $('room-description').textContent=!mine?'Establishing the player connection. Keep both games open.':'Start with whoever is here. Empty slots and uneven teams are allowed.';
  $('room-roster').replaceChildren(...link.members.map(m=>{const row=document.createElement('div'),name=document.createElement('button'),state=document.createElement('small');row.className=team?(m.team===0?'cyan-team':'amber-team'):'';name.className='player-profile-link';name.onclick=()=>window.neonAccount.viewProfile(m.name);name.textContent=(team?TEAM_NAMES[m.team]+' · ':'')+m.name+(m.side===0?' · HOST':'');state.textContent=m.ready?'READY':'CONNECTED';row.append(name,state);return row;}));
  $('team-choice').classList.toggle('hidden',!team||!mine);[0,1].forEach(t=>{const button=$(t===0?'team-cyan':'team-amber');button.textContent=TEAM_NAMES[t]+' · '+counts[t]+'/'+Math.ceil(rules.capacity/2)+(mine?.team===t?' · YOUR TEAM':'');button.disabled=!mine||link.locked||!canJoinTeam(link.members,link.side,t,rules);button.setAttribute('aria-pressed',String(mine?.team===t));});
- $('live-mode').value=rules.mode;$('live-map').value=rules.map;
+ 
  $('ready').disabled=!mine;$('ready').textContent=!mine?'CONNECTING…':ownReady?'CANCEL READY':isHost?'READY / START ROUND':'READY UP';window.dispatchEvent(new Event('neon-room-render'));
  $('room-status').textContent=(rules.mode==='hill'?'Hold an uncontested hill for '+rules.limit+' seconds to win.':team?'First team to '+rules.limit+' eliminations. Friendly fire off.':'First to '+rules.limit+' eliminations wins.')+' All present players must be ready. No minimum team size. Join between rounds.';
  if(mode==='result'){$('rematch-status').textContent=link.members.filter(m=>m.ready).length+'/'+link.members.length+' READY · Everyone chooses Play again.';$('rematch').disabled=ownReady;}
@@ -267,6 +268,6 @@ function updateMatchboard(){const visible=mode==='match'&&!!keys.Tab;$('matchboa
 function syncCloudSettings(){view.setFinish(settings.weaponFinish);applyEnhancementSettings();for(const [id,key,mult]of[['sensitivity','sensitivity',1],['fov','fov',1],['volume','volume',100],['music-volume','musicVolume',100],['render-scale','renderPercent',1]]){if($(id)){$(id).value=settings[key]*mult;if($(id+'-value'))$(id+'-value').textContent=settings[key]*mult+(mult===100||id==='render-scale'?'%':'');}}for(const [id,key]of[['quality','quality'],['shadow-quality','shadowQuality'],['effect-quality','effects'],['frame-limit','frameLimit'],['input-mode','inputMode'],['atmosphere','atmosphere'],['reticle','reticle'],['motion','motion'],['difficulty','difficulty']])if($(id))$(id).value=settings[key];applyQuality();arena.setAtmosphere(settings.atmosphere);if(audio.master)audio.master.gain.value=settings.volume;if(audio.music)audio.music.gain.value=settings.musicVolume*.16;try{localStorage.setItem('neon-breach-settings-v2',JSON.stringify(settings));}catch{}}
 
 window.neonBackToRoom=()=>{if(!online)return;mode='room';hide('result-screen');show('room-screen');ownReady=false;link.ready(false);renderRoom();};
-mountRoomHub(link);organizeMenus();
+mountRoomHub(link);organizeMenus();mountVisualChoices();
 
 window.addEventListener('neon-preview-sound',e=>{initAudio();sound('shot'+e.detail);});
