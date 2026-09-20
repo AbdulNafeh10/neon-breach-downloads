@@ -92,29 +92,60 @@ export function makeSoldier(color=0xff9369){
 }
 
 export function makeViewWeapons(){
- const scene=new T.Scene(),camera=new T.PerspectiveCamera(62,innerWidth/innerHeight,.01,10);scene.add(new T.HemisphereLight(0xe1ffef,0x325071,2.9));const key=new T.DirectionalLight(0xffdfc2,3);key.position.set(-3,5,2);scene.add(key);
- const rig=new T.Group();scene.add(rig);const guns=[];const steel=new T.MeshStandardMaterial({color:0x728d91,metalness:.8,roughness:.22}),dark=new T.MeshStandardMaterial({color:0x142434,metalness:.6,roughness:.3}),rubber=new T.MeshStandardMaterial({color:0x111b23,metalness:.1,roughness:.67}),copper=new T.MeshStandardMaterial({color:0x7a5645,metalness:.75,roughness:.28});
- const box=(p,x,y,z,w,h,d,m)=>{const o=new T.Mesh(new RoundedBoxGeometry(w,h,d,2,.008),m);o.position.set(x,y,z);p.add(o);return o};
- const cyl=(p,x,y,z,r,len,m)=>{const o=new T.Mesh(new T.CylinderGeometry(r,r,len,12),m);o.rotation.x=Math.PI/2;o.position.set(x,y,z);p.add(o);return o};
- for(let i=0;i<WEAPONS.length;i++){const gun=new T.Group();gun.position.set(.29,-.28,-.48);rig.add(gun);const color=WEAPONS[i].color;const glow=new T.MeshStandardMaterial({color,emissive:color,emissiveIntensity:2});
+ const scene=new T.Scene(),camera=new T.PerspectiveCamera(62,innerWidth/innerHeight,.01,10);scene.add(new T.HemisphereLight(0xdce9f3,0x263445,2));const key=new T.DirectionalLight(0xffe8ce,3);key.position.set(-3,5,2);scene.add(key);const rim=new T.DirectionalLight(0xa9c7ec,1.6);rim.position.set(3,1,-2);scene.add(rim);
+ const rig=new T.Group();scene.add(rig);const guns=[];
+ const steel=new T.MeshStandardMaterial({color:0x8b969e,metalness:.87,roughness:.29}),dark=new T.MeshStandardMaterial({color:0x222c34,metalness:.7,roughness:.4}),rubber=new T.MeshStandardMaterial({color:0x14181c,metalness:.03,roughness:.9}),copper=new T.MeshStandardMaterial({color:0x76604b,metalness:.6,roughness:.42}),black=new T.MeshStandardMaterial({color:0x040608,roughness:.8});
+ const box=(p,x,y,z,w,h,d,m)=>{const o=new T.Mesh(new RoundedBoxGeometry(w,h,d,2,.006),m);o.position.set(x,y,z);p.add(o);return o;};
+ const cyl=(p,x,y,z,r,len,m)=>{const o=new T.Mesh(new T.CylinderGeometry(r,r,len,16),m);o.rotation.x=Math.PI/2;o.position.set(x,y,z);p.add(o);return o;};
+ for(let i=0;i<WEAPONS.length;i++){
+  const gun=new T.Group();gun.position.set(.29,-.29,-.48);rig.add(gun);const pistol=i===4,shotgun=i===1,sniper=i===2,smg=i===3;
+  const accent=new T.MeshStandardMaterial({color:WEAPONS[i].color,emissive:WEAPONS[i].color,emissiveIntensity:.18,metalness:.4,roughness:.4});
+  const body=pistol?steel:shotgun?copper:dark,action=new T.Group(),pump=new T.Group();gun.add(action,pump);
+  // Receivers have distinct proportions; the Warden is a large metal-slide hand cannon.
+  box(gun,0,-.015,pistol?-.13:-.14,pistol?.155:.145,pistol?.105:.17,pistol?.31:smg?.33:.43,body);
+  if(pistol){
+   box(action,0,.075,-.2,.168,.115,.43,steel);box(action,0,.136,-.23,.105,.014,.34,dark);
+   box(action,.086,.085,-.13,.005,.047,.11,black);box(action,.09,.061,-.12,.012,.017,.06,steel);
+   for(let j=0;j<6;j++)for(const x of [-.085,.085])box(action,x,.084,-.035-j*.018,.008,.075,.006,dark);
+   box(gun,0,-.15,.02,.125,.24,.12,rubber).rotation.x=.27;
+   for(let j=0;j<5;j++)for(const x of [-.066,.066])box(gun,x,-.12-j*.025,.022,.006,.008,.095,dark);
+   box(gun,0,-.115,-.115,.105,.018,.12,steel);for(const x of [-.049,.049])box(gun,x,-.078,-.175,.014,.07,.025,steel);
+   box(action,0,.158,-.39,.021,.028,.027,accent);for(const x of [-.05,.05])box(action,x,.15,-.015,.024,.025,.035,dark);
+   gun.scale.set(1.12,1.12,1.12);
+  }else{
+   box(action,0,.065,-.12,.135,.04,.28,steel);box(gun,.08,.02,-.08,.012,.05,.12,black);
+   box(action,.095,.026,.005,.045,.025,.06,steel);
+   box(gun,0,-.14,.005,.088,.2,.095,rubber).rotation.x=.23;
+   box(gun,0,.005,.16,.095,.1,.24,dark);box(gun,0,-.01,.3,.14,.19,.05,rubber);
+   box(gun,0,.04,.22,.105,.075,.15,body);
+   for(let j=0;j<9;j++)box(gun,0,.107,-.36+j*.043,.125,.018,.016,dark);
+   // Open iron sights stay below the HUD aiming point; no solid glowing optic block.
+   for(const x of [-.04,.04])box(gun,x,.142,.002,.016,.056,.035,dark);
+   box(gun,0,.137,-.49,.014,.045,.023,accent);
+  }
+  const magazine=box(gun,0,pistol?-.225:-.18,pistol?.04:-.12,pistol?.09:.095,pistol?.065:smg?.28:.21,pistol?.11:.14,dark);magazine.rotation.x=-.13;const magazineY=magazine.position.y;
+  if(!pistol)for(let j=0;j<3;j++)box(magazine,0,0,-.05+j*.046,.1,.16,.005,rubber);
+  const barrelLen=sniper?.72:shotgun?.49:smg?.19:pistol?.1:.38,muzzleZ=(pistol?-.37:-.39)-barrelLen;
+  cyl(gun,0,.02,(pistol?-.37:-.39)-barrelLen/2,shotgun?.04:.025,barrelLen,steel);
+  cyl(gun,0,.02,muzzleZ,.043,.075,dark);cyl(gun,0,.02,muzzleZ-.04,.025,.008,black);
+  if(i===0||smg){box(gun,0,.0,smg?-.39:-.48,.15,.13,smg?.19:.3,dark);for(let j=0;j<(smg?3:6);j++)for(const x of [-.078,.078])box(gun,x,.014,-.35-j*.041,.006,.045,.025,black);box(gun,0,-.115,-.41,.065,smg?.18:.13,.075,rubber);}
+  if(shotgun){cyl(gun,0,-.062,-.58,.03,.49,dark);box(pump,0,-.05,-.51,.15,.12,.25,rubber);for(let j=0;j<7;j++)box(pump,0,-.047,-.62+j*.033,.159,.123,.012,copper);for(let j=0;j<4;j++){cyl(gun,-.093,.005,-.04-j*.046,.018,.072,copper);}magazine.visible=false;}
+  if(sniper){cyl(gun,0,.18,-.18,.057,.34,dark);cyl(gun,0,.18,-.37,.075,.075,steel);cyl(gun,0,.18,.005,.067,.065,dark);cyl(gun,0,.18,.04,.048,.008,accent);for(const z of [-.27,-.08])box(gun,0,.11,z,.085,.08,.05,steel);box(action,.13,.025,.005,.1,.022,.026,steel);const knob=new T.Mesh(new T.SphereGeometry(.028,12,8),dark);knob.position.set(.18,.025,.005);action.add(knob);for(const x of [-.055,.055]){const leg=box(gun,x,-.08,-.63,.023,.23,.03,dark);leg.rotation.z=x>0?-.27:.27;}}
+  if(smg){gun.scale.set(.88,.94,.86);box(gun,0,-.04,.22,.11,.035,.28,steel);}
+  // Fasteners, selector and restrained color ID add readable material detail.
+  for(const z of [-.25,-.03]){const screw=new T.Mesh(new T.CylinderGeometry(.008,.008,.009,8),steel);screw.rotation.z=Math.PI/2;screw.position.set(pistol?.087:.078,.01,z);gun.add(screw);}
+  box(gun,.081,.015,pistol?-.025:.018,.014,.017,.041,accent).rotation.x=-.3;
+  box(gun,.03,-.17,.11,.13,.12,.18,rubber).rotation.x=.3;box(gun,.075,-.27,.26,.155,.15,.28,dark).rotation.set(.3,-.2,-.15);
+  const support=new T.Group();gun.add(support);support.position.set(pistol?-.055:-.06,pistol?-.17:-.12,pistol?.02:-.39);box(support,0,0,0,.13,.1,.16,rubber);box(support,-.065,-.1,.14,.14,.14,.29,dark).rotation.set(-.5,0,-.3);
+  for(let j=0;j<3;j++)box(support,-.03,.042,-.047+j*.04,.1,.028,.028,rubber);
+  const flash=new T.Group();flash.position.set(0,.02,muzzleZ-.08);gun.add(flash);const material=new T.MeshBasicMaterial({color:0xffd298,transparent:true,opacity:.75,blending:T.AdditiveBlending,depthWrite:false});const flare=new T.Mesh(new T.ConeGeometry(.055,.22,8),material);flare.rotation.x=-Math.PI/2;flash.add(flare);flash.visible=false;const lamp=new T.PointLight(0xffbc83,0,2);flash.add(lamp);
+  // Highest receiver/sight surface stays below center even at peak ADS kick.
+  const adsY=-(sniper?.33:pistol?.27:.25)*gun.scale.y;
+  guns.push({group:gun,flash,lamp,muzzleZ,action,pump,magazine,magazineY,adsY,support,supportY:support.position.y,supportZ:support.position.z});gun.visible=i===0;
+ }
 
- const pistol=i===4,smg=i===3;
- box(gun,0,0,-.16,pistol?.13:.15,pistol?.13:.18,pistol?.3:smg?.35:.46,i===1?copper:dark);
- const action=new T.Group();action.position.set(0,0,0);gun.add(action);box(action,0,.073,pistol?-.18:-.21,.14,pistol?.07:.033,pistol?.35:.48,steel);
- box(gun,.08,-.005,-.17,.025,.1,.2,steel);box(gun,-.08,-.005,-.17,.018,.1,.2,steel);
- box(gun,0,-.13,.01,.095,pistol?.25:.18,.105,rubber).rotation.x=.23;
- const magazine=box(gun,0,pistol?-.18:-.17,pistol?.01:-.11,pistol?.065:.088,pistol?.16:smg?.28:.2,pistol?.07:.14,dark);magazine.rotation.x=-.13;const magazineY=magazine.position.y;
- if(!pistol){box(gun,0,0,.18,.1,.12,.22,dark);box(gun,0,.012,.3,.145,.18,.07,rubber);}else{box(gun,0,.12,-.32,.024,.035,.03,glow);for(const x of [-.042,.042])box(gun,x,.12,-.04,.025,.035,.04,dark);}
- if(!pistol){box(gun,0,.12,-.07,.085,.052,.11,dark);box(gun,0,.14,-.071,.045,.012,.04,glow);}
-
- const barrelLen=i===2?.68:i===1?.4:i===3?.18:i===4?.045:.34;const muzzleZ=-.38-barrelLen;cyl(gun,0,.015,-.38-barrelLen/2,i===1?.042:.027,barrelLen,steel);cyl(gun,0,.015,muzzleZ,.043,.1,dark);cyl(gun,0,.015,muzzleZ-.056,.029,.015,rubber);
- for(let j=0;j<6;j++){box(gun,0,.098,-.16-j*.038,.11,.012,.013,dark);box(gun,.08,.006,-.27+j*.035,.014,.009,.021,glow)}
- if(i===1){cyl(gun,0,-.065,-.46,.026,.31,dark);box(gun,0,-.06,-.33,.14,.1,.22,rubber);for(let j=0;j<4;j++)box(gun,0,-.105,-.4+j*.045,.147,.013,.02,copper)}
- if(i===2){cyl(gun,0,.16,-.21,.065,.29,dark);cyl(gun,0,.16,-.055,.078,.05,steel);cyl(gun,0,.16,-.027,.057,.008,glow);box(gun,0,.103,-.2,.065,.08,.08,steel);box(gun,.1,-.01,-.04,.08,.035,.06,steel)}
- if(i===3){gun.scale.set(.9,.95,.85);box(gun,0,-.23,-.13,.1,.23,.12,dark);box(gun,0,.15,-.32,.09,.06,.08,glow);}if(i===4){gun.scale.set(.9,.95,.92);box(gun,.075,.035,-.19,.012,.04,.15,copper);}if(i===2){for(const x of [-.07,.07]){const leg=box(gun,x,-.09,-.57,.025,.22,.035,dark);leg.rotation.z=x>0?-.25:.25;}box(gun,0,.02,.26,.15,.2,.12,rubber);}
- // Gauntlets and arms move with the weapon, making recoil and reloads tactile.
- box(gun,.03,-.17,.11,.13,.13,.22,rubber).rotation.x=.3;box(gun,.07,-.25,.27,.17,.16,.27,dark).rotation.set(.3,-.2,-.15);box(gun,-.04,-.12,-.32,.14,.1,.17,rubber);box(gun,-.11,-.22,-.18,.15,.15,.31,steel).rotation.set(-.5,0,-.3);box(gun,-.1,-.23,-.02,.09,.018,.055,glow);
- const flash=new T.Group();flash.position.set(0,.015,muzzleZ-.11);gun.add(flash);const flare=new T.Mesh(new T.ConeGeometry(.095,.35,7),new T.MeshBasicMaterial({color:0xffe9aa,transparent:true,opacity:.85,blending:T.AdditiveBlending,depthWrite:false}));flare.rotation.x=-Math.PI/2;flash.add(flare);const core=new T.Mesh(new T.SphereGeometry(.05,8,8),new T.MeshBasicMaterial({color:0xffffff}));flash.add(core);flash.visible=false;const lamp=new T.PointLight(0xffbb78,0,3);flash.add(lamp);
- guns.push({group:gun,flash,lamp,muzzleZ,action,magazine,magazineY});gun.visible=i===0;}
- return {scene,camera,rig,guns,setFinish(name){const colors={standard:0x728d91,gold:0xbc9358,arctic:0xe1eef3};steel.color.setHex(colors[name]||colors.standard);}};
+ const casings=new T.InstancedMesh(new T.CylinderGeometry(.009,.009,.035,7),new T.MeshStandardMaterial({color:0xb99150,metalness:.8,roughness:.3}),16);casings.instanceMatrix.setUsage(T.DynamicDrawUsage);casings.frustumCulled=false;scene.add(casings);const shells=[],dummy=new T.Object3D();casings.count=0;
+ function eject(index){rig.updateMatrixWorld(true);const p=guns[index].group.localToWorld(new T.Vector3(.1,.04,-.06));if(shells.length>=16)shells.shift();shells.push({p,v:new T.Vector3(1.2+Math.random()*.5,1+Math.random()*.4,.3),life:.65,spin:Math.random()*6});}
+ function update(dt,hidden=false){for(let i=shells.length-1;i>=0;i--){const s=shells[i];s.life-=dt;if(s.life<=0){shells.splice(i,1);continue;}s.v.y-=5*dt;s.p.addScaledVector(s.v,dt);s.spin+=dt*15;}casings.visible=!hidden;casings.count=shells.length;shells.forEach((s,i)=>{dummy.position.copy(s.p);dummy.rotation.set(s.spin,s.spin*.7,0);dummy.scale.setScalar(Math.min(1,s.life*8));dummy.updateMatrix();casings.setMatrixAt(i,dummy.matrix);});casings.instanceMatrix.needsUpdate=true;}
+ return {scene,camera,rig,guns,eject,update,setFinish(name){steel.color.setHex({standard:0x8b969e,gold:0xbc9358,arctic:0xe1eef3}[name]||0x8b969e);}};
 }

@@ -1,10 +1,10 @@
 {
-  "version": "3.6.0",
-  "notes": "Arena Radio: three bundled full electronic tracks with playback controls. Distinct weapon models, mechanical sounds, moving parts, reload motion, controlled recoil and muzzle-aligned ADS tracers. Weapon-specific damage ranges. Everyone in a room must update to 3.6.",
+  "version": "3.7.0",
+  "notes": "After Action: rebuilt gun models and handling, heavier Warden, pump/bolt/slide cycles, new firing and overall game SFX, clear ADS and fixed sniper tracer. Menu music fades to a subtle combat mix; win/loss cues. Full final scoreboard -> Continue -> room -> ready up again. Everyone must update to 3.7.",
   "platforms": {
     "win32": {
-      "url": "https://github.com/AbdulNafeh10/neon-breach-downloads/releases/download/v3.6.0/NEON-BREACH-Setup-3.6.0.exe",
-      "sha256": "7613b2fb3a102850d23c23a96d8c04c44c2a625fc8f1020c7646a33be393f424"
+      "url": "https://github.com/AbdulNafeh10/neon-breach-downloads/releases/download/v3.7.0/NEON-BREACH-Setup-3.7.0.exe",
+      "sha256": "e5bf46bcf19d1a1f4af06341c7d24ba97637da3e1ccf586906079037752e843f"
     }
   }
 }
