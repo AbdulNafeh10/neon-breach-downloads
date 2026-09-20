@@ -14,5 +14,5 @@ export function packCombat(p){return {barrier:p.barrier,maxHealth:p.maxHealth,ma
 export function receiveCombat(p,data){if(!data)return;for(const [key,max]of[['barrier',300],['maxHealth',300],['maxShield',300],['armor',60],['boost',12],['surge',12],['energy',100],['streak',100]])if(Number.isFinite(data[key]))p[key]=cap(data[key],0,max);if(data.stats)for(const key of Object.keys(p.stats))if(Number.isFinite(data.stats[key]))p.stats[key]=cap(data.stats[key],0,100000);}
 export const accuracy=p=>p.stats.shots?Math.min(100,Math.round(p.stats.hits/p.stats.shots*100)):0;
 
-export function applyVitals(p,rules){p.maxHealth=rules.maxHealth??100;p.maxShield=rules.maxShield??100;p.hp=p.maxHealth;p.barrier=p.maxShield;p.damageRest=0;}
+export function applyVitals(p,rules){p.shield=rules.spawnProtection??1.5;p.maxHealth=rules.maxHealth??100;p.maxShield=rules.maxShield??100;p.hp=p.maxHealth;p.barrier=p.maxShield;p.damageRest=0;}
 export function tickRegen(p,dt,rules){if(p.dead>0)return;const before=p.damageRest||0;p.damageRest=before+Math.max(0,dt);const healingTime=Math.max(0,p.damageRest-Math.max(before,rules.regenDelay??5));if(rules.regenRate>0&&healingTime>0)p.hp=Math.min(p.maxHealth||100,p.hp+healingTime*rules.regenRate);}

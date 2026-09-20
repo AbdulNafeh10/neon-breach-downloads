@@ -40,7 +40,7 @@ export const angleLerp=(a,b,t)=>a+Math.atan2(Math.sin(b-a),Math.cos(b-a))*t;
 export function makePlayer(side=0,spawnSlot=side){const spawn=SPAWNS[spawnSlot]||SPAWNS[0];return {x:spawn[0],y:0,z:spawn[1],vx:0,vy:0,vz:0,yaw:spawn[1]>0?0:Math.PI,pitch:0,grounded:true,dash:0,dashCd:0,dashX:0,dashZ:0,slide:0,slideCd:0,slideX:0,slideZ:0,eye:1.65,height:1.8,hp:100,score:0,dead:0,shield:1.5,gun:0,ammo:WEAPONS.map(w=>w.cap),reload:0,shotCd:0,walk:0,side,spawnSlot,life:0,hill:0,...combatProfile()};}
 function overlapXZ(p,b,r=.34){return p.x+r>b.x-b.w/2&&p.x-r<b.x+b.w/2&&p.z+r>b.z-b.d/2&&p.z-r<b.z+b.d/2;}
 export function movePlayer(p,input,dt){
- dt=Math.min(.05,Math.max(0,dt));p.dash=Math.max(0,p.dash-dt);p.dashCd=Math.max(0,p.dashCd-dt);p.slideCd=Math.max(0,p.slideCd-dt);p.slide=Math.max(0,p.slide-dt);p.shield=Math.max(0,p.shield-dt);p.shotCd=Math.max(0,p.shotCd-dt);
+ dt=Math.min(.05,Math.max(0,dt));p.dash=Math.max(0,p.dash-dt);p.dashCd=Math.max(0,p.dashCd-dt);p.slideCd=Math.max(0,p.slideCd-dt);p.slide=Math.max(0,p.slide-dt);p.shotCd=Math.max(0,p.shotCd-dt);
  if(p.reload>0){p.reload-=dt;if(p.reload<=0){p.reload=0;p.ammo[p.gun]=WEAPONS[p.gun].cap;}}
  if(p.dead>0)return;
  const fw=(input.forward||0),st=(input.strafe||0),len=Math.max(1,Math.hypot(fw,st));
@@ -68,7 +68,7 @@ export function movePlayer(p,input,dt){
  p.padCd=Math.max(0,p.padCd-dt);if(p.padCd<=0&&p.grounded&&p.y<.2&&JUMP_PADS.some(a=>Math.hypot(p.x-a.x,p.z-a.z)<.95)){p.vy=12.5;p.grounded=false;p.padCd=1.2;p.slide=0;}
  p.walk+=Math.hypot(p.vx,p.vz)*dt;
 }
-export function resetLife(p){const score=p.score,hill=p.hill,stats=p.stats,side=p.side,team=p.team,spawnSlot=p.spawnSlot,life=p.life+1;Object.assign(p,makePlayer(side,spawnSlot));p.team=team;p.score=score;p.hill=hill;p.stats=stats;p.life=life;p.shield=1.5;}
+export function resetLife(p,nextSlot=p.spawnSlot){const score=p.score,hill=p.hill,stats=p.stats,side=p.side,team=p.team,spawnSlot=nextSlot,life=p.life+1;Object.assign(p,makePlayer(side,spawnSlot));p.team=team;p.score=score;p.hill=hill;p.stats=stats;p.life=life;p.shield=1.5;}
 export function packetPlayer(p){return {x:p.x,y:p.y,z:p.z,yaw:p.yaw,pitch:p.pitch,gun:p.gun,slide:p.slide>0,eye:p.eye,grounded:p.grounded,life:p.life};}
 export function validState(p){return p&&['x','y','z','yaw','pitch'].every(k=>Number.isFinite(p[k]))&&Math.abs(p.x)<arenaBounds.x+2&&Math.abs(p.z)<arenaBounds.z+2&&p.y>=-.1&&p.y<12&&Math.abs(p.pitch)<2&&Number.isInteger(p.gun)&&p.gun>=0&&p.gun<WEAPONS.length;}
 export function rayBox(origin,dir,b){let near=0,far=200;for(const [axis,size]of[['x','w'],['y','h'],['z','d']]){const min=axis==='y'?b.y:b[axis]-b[size]/2,max=axis==='y'?b.y+b.h:b[axis]+b[size]/2;const o=origin[axis],d=dir[axis];if(Math.abs(d)<1e-8){if(o<min||o>max)return Infinity;continue}let a=(min-o)/d,c=(max-o)/d;if(a>c)[a,c]=[c,a];near=Math.max(near,a);far=Math.min(far,c);if(near>far)return Infinity}return near;}

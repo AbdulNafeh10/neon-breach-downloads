@@ -1,10 +1,10 @@
 {
-  "version": "3.11.0",
-  "notes": "Five distinct arenas: rebuilt Foundry and Citadel plus new Prism Archive and Tempest Dockyard. New staircases, upper floors and underpasses. Softer adjustable damage effects, gold headshots, animated shield shatter, smoother damage numbers, location callouts and updated map previews. Everyone in a room must update.",
+  "version": "3.12.0",
+  "notes": "Play Together: map voting between rounds, private team pings with acknowledgments, safer randomized spawns, adjustable 1.5-second spawn protection, randomized Hill zones and next-zone warnings, six saved match presets, room loadout selection and cleaner menu transitions. Everyone in a room must update.",
   "platforms": {
     "win32": {
-      "url": "https://github.com/AbdulNafeh10/neon-breach-downloads/releases/download/v3.11.0/NEON-BREACH-Setup-3.11.0.exe",
-      "sha256": "a07e2b97cf3f11e3fc4d4c807108265e9c966fc5745337c34bc94d285fc0832a"
+      "url": "https://github.com/AbdulNafeh10/neon-breach-downloads/releases/download/v3.12.0/NEON-BREACH-Setup-3.12.0.exe",
+      "sha256": "13ba1b2a1e5a1cce9ce698a49131755b9f98bad7d0dc79a3d73a649fe622b526"
     }
   }
 }
