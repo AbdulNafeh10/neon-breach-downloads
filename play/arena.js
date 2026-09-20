@@ -97,15 +97,24 @@ export function makeViewWeapons(){
  const box=(p,x,y,z,w,h,d,m)=>{const o=new T.Mesh(new RoundedBoxGeometry(w,h,d,2,.008),m);o.position.set(x,y,z);p.add(o);return o};
  const cyl=(p,x,y,z,r,len,m)=>{const o=new T.Mesh(new T.CylinderGeometry(r,r,len,12),m);o.rotation.x=Math.PI/2;o.position.set(x,y,z);p.add(o);return o};
  for(let i=0;i<WEAPONS.length;i++){const gun=new T.Group();gun.position.set(.29,-.28,-.48);rig.add(gun);const color=WEAPONS[i].color;const glow=new T.MeshStandardMaterial({color,emissive:color,emissiveIntensity:2});
- box(gun,0,0,-.16,.14,.16,.43,i===1?copper:dark);box(gun,0,.073,-.21,.14,.033,.48,steel);box(gun,.066,-.005,-.17,.025,.1,.2,steel);box(gun,-.066,-.005,-.17,.018,.1,.2,steel);box(gun,0,-.095,.02,.085,.17,.085,rubber).rotation.x=.23;box(gun,0,-.15,-.11,.088,.16,.14,dark).rotation.x=-.13;box(gun,0,0,.16,.115,.13,.16,rubber);box(gun,0,.12,-.07,.085,.052,.11,dark);box(gun,0,.14,-.071,.045,.012,.04,glow);
- const barrelLen=i===2?.6:i===1?.32:.34;const muzzleZ=-.38-barrelLen;cyl(gun,0,.015,-.38-barrelLen/2,i===1?.042:.027,barrelLen,steel);cyl(gun,0,.015,muzzleZ,.043,.1,dark);cyl(gun,0,.015,muzzleZ-.056,.029,.015,rubber);
+
+ const pistol=i===4,smg=i===3;
+ box(gun,0,0,-.16,pistol?.13:.15,pistol?.13:.18,pistol?.3:smg?.35:.46,i===1?copper:dark);
+ const action=new T.Group();action.position.set(0,0,0);gun.add(action);box(action,0,.073,pistol?-.18:-.21,.14,pistol?.07:.033,pistol?.35:.48,steel);
+ box(gun,.08,-.005,-.17,.025,.1,.2,steel);box(gun,-.08,-.005,-.17,.018,.1,.2,steel);
+ box(gun,0,-.13,.01,.095,pistol?.25:.18,.105,rubber).rotation.x=.23;
+ const magazine=box(gun,0,pistol?-.18:-.17,pistol?.01:-.11,pistol?.065:.088,pistol?.16:smg?.28:.2,pistol?.07:.14,dark);magazine.rotation.x=-.13;const magazineY=magazine.position.y;
+ if(!pistol){box(gun,0,0,.18,.1,.12,.22,dark);box(gun,0,.012,.3,.145,.18,.07,rubber);}else{box(gun,0,.12,-.32,.024,.035,.03,glow);for(const x of [-.042,.042])box(gun,x,.12,-.04,.025,.035,.04,dark);}
+ if(!pistol){box(gun,0,.12,-.07,.085,.052,.11,dark);box(gun,0,.14,-.071,.045,.012,.04,glow);}
+
+ const barrelLen=i===2?.68:i===1?.4:i===3?.18:i===4?.045:.34;const muzzleZ=-.38-barrelLen;cyl(gun,0,.015,-.38-barrelLen/2,i===1?.042:.027,barrelLen,steel);cyl(gun,0,.015,muzzleZ,.043,.1,dark);cyl(gun,0,.015,muzzleZ-.056,.029,.015,rubber);
  for(let j=0;j<6;j++){box(gun,0,.098,-.16-j*.038,.11,.012,.013,dark);box(gun,.08,.006,-.27+j*.035,.014,.009,.021,glow)}
  if(i===1){cyl(gun,0,-.065,-.46,.026,.31,dark);box(gun,0,-.06,-.33,.14,.1,.22,rubber);for(let j=0;j<4;j++)box(gun,0,-.105,-.4+j*.045,.147,.013,.02,copper)}
  if(i===2){cyl(gun,0,.16,-.21,.065,.29,dark);cyl(gun,0,.16,-.055,.078,.05,steel);cyl(gun,0,.16,-.027,.057,.008,glow);box(gun,0,.103,-.2,.065,.08,.08,steel);box(gun,.1,-.01,-.04,.08,.035,.06,steel)}
- if(i===3){gun.scale.set(.88,.9,.72);box(gun,0,-.23,-.13,.1,.23,.12,dark);box(gun,0,.15,-.32,.09,.06,.08,glow);}if(i===4){gun.scale.set(.8,.9,.57);box(gun,0,.075,-.24,.18,.1,.42,copper);box(gun,0,-.2,.015,.11,.21,.1,rubber);}
+ if(i===3){gun.scale.set(.9,.95,.85);box(gun,0,-.23,-.13,.1,.23,.12,dark);box(gun,0,.15,-.32,.09,.06,.08,glow);}if(i===4){gun.scale.set(.9,.95,.92);box(gun,.075,.035,-.19,.012,.04,.15,copper);}if(i===2){for(const x of [-.07,.07]){const leg=box(gun,x,-.09,-.57,.025,.22,.035,dark);leg.rotation.z=x>0?-.25:.25;}box(gun,0,.02,.26,.15,.2,.12,rubber);}
  // Gauntlets and arms move with the weapon, making recoil and reloads tactile.
  box(gun,.03,-.17,.11,.13,.13,.22,rubber).rotation.x=.3;box(gun,.07,-.25,.27,.17,.16,.27,dark).rotation.set(.3,-.2,-.15);box(gun,-.04,-.12,-.32,.14,.1,.17,rubber);box(gun,-.11,-.22,-.18,.15,.15,.31,steel).rotation.set(-.5,0,-.3);box(gun,-.1,-.23,-.02,.09,.018,.055,glow);
  const flash=new T.Group();flash.position.set(0,.015,muzzleZ-.11);gun.add(flash);const flare=new T.Mesh(new T.ConeGeometry(.095,.35,7),new T.MeshBasicMaterial({color:0xffe9aa,transparent:true,opacity:.85,blending:T.AdditiveBlending,depthWrite:false}));flare.rotation.x=-Math.PI/2;flash.add(flare);const core=new T.Mesh(new T.SphereGeometry(.05,8,8),new T.MeshBasicMaterial({color:0xffffff}));flash.add(core);flash.visible=false;const lamp=new T.PointLight(0xffbb78,0,3);flash.add(lamp);
- guns.push({group:gun,flash,lamp,muzzleZ});gun.visible=i===0;}
+ guns.push({group:gun,flash,lamp,muzzleZ,action,magazine,magazineY});gun.visible=i===0;}
  return {scene,camera,rig,guns,setFinish(name){const colors={standard:0x728d91,gold:0xbc9358,arctic:0xe1eef3};steel.color.setHex(colors[name]||colors.standard);}};
 }

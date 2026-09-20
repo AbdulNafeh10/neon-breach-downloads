@@ -1,0 +1,16 @@
+# Included music
+
+AI Fight (120 BPM), New Factory (129 BPM), System Overload (154 BPM)
+Artist: Alexander Ehlers (tricksntraps)
+Source: https://opengameart.org/content/t-t-free-cyberpunk-pack-2
+License: CC0 1.0 Universal — https://creativecommons.org/publicdomain/zero/1.0/
+Source page checked September 20, 2026. The page labels the pack CC0 and credits Alexander Ehlers.
+
+Original download files:
+https://opengameart.org/sites/default/files/ai_fight_120bpm.ogg
+https://opengameart.org/sites/default/files/new_factory_129bpm_0.ogg
+https://opengameart.org/sites/default/files/system_overload_154bpm.ogg
+
+Changes: transcoded to MP3 and loudness-normalized to -18 LUFS, -2 dB true-peak target. Full tracks retained. No third-party streaming account required.
+
+NIGHT CIRCUIT is an original procedurally arranged electronic score included as an optional/fallback soundtrack. Weapon effects are original synthesized sounds.

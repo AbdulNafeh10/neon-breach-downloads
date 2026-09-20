@@ -8,6 +8,8 @@ export const WEAPONS = [
  {name:"VOLT COMPACT SMG",short:"VOLT",cap:36,damage:15,head:1.5,rate:.065,reload:1.4,spread:.012,pellets:1,recoil:.012,auto:true,ads:62,color:0x79d5ff},
  {name:"WARDEN HEAVY PISTOL",short:"WARDEN",cap:12,damage:38,head:1.7,rate:.3,reload:1.25,spread:.003,pellets:1,recoil:.038,auto:false,ads:52,color:0xffdb83}
 ];
+export const WEAPON_RANGES=[[35,80,.65],[8,30,.2],[70,140,.85],[12,32,.5],[20,50,.6]];
+export function damageAtRange(gun,distance){const [near,far,floor]=WEAPON_RANGES[gun],t=Math.max(0,Math.min(1,(distance-near)/(far-near)));return WEAPONS[gun].damage*(1-t*(1-floor));}
 export const BLOCKS=[];
 const baseBlocks=[];
 const block=(x,z,w,h,d,y=0,kind='cover')=>BLOCKS.push({x,z,w,h,d,y,kind});
