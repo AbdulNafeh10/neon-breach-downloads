@@ -1,10 +1,10 @@
 {
-  "version": "3.4.0",
-  "notes": "Fixed invite loading states, room-lobby invitations and direct joining. New map and weapon previews, Profile / Locker / Friends tabs, five skin previews, three weapon finishes and reticle color choices.",
+  "version": "3.5.0",
+  "notes": "Squad Update: five weapons, starting loadouts and host weapon pools; room chat, six modes and custom rules; distinct maps, opt-in profiles and in-game Windows updates. All room players must update to 3.5.",
   "platforms": {
     "win32": {
-      "url": "https://github.com/AbdulNafeh10/neon-breach-downloads/releases/download/v3.4.0/NEON-BREACH-Setup-3.4.0.exe",
-      "sha256": "e8046f692d0d3b690680134beeea464f8fa91170d4f1227aba174dcef0d9256b"
+      "url": "https://github.com/AbdulNafeh10/neon-breach-downloads/releases/download/v3.5.0/NEON-BREACH-Setup-3.5.0.exe",
+      "sha256": "0774ba8a475f7e52ba797f3b3b5eac35daf51bb9e3f68088b9ba992a617d23de"
     }
   }
 }

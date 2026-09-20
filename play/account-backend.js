@@ -11,6 +11,7 @@ export async function accountApi(path,options={}){
  if(path==='/api/auth/logout'){checked(await client.auth.signOut());return {ok:true};}
  if(path==='/api/me')return {user:await profile()};
  const u=await user();
+ if(path==='/api/player-profile')return {profile:checked(await client.rpc('player_profile',{callsign:body.username}))[0]||null};
  if(path==='/api/profile'){const patch={};if(body.skin!==undefined)patch.skin=body.skin;if(body.settings)patch.settings=body.settings;if(body.stats)patch.stats=body.stats;checked(await client.from('profiles').update(patch).eq('id',u.id));return {user:await profile()};}
  if(path==='/api/presence'){checked(await client.from('profiles').update({seen_at:new Date().toISOString()}).eq('id',u.id));return {ok:true};}
  if(path==='/api/friends'){const rows=checked(await client.from('friendships').select('*'));const people=checked(await client.rpc('friend_profiles'));const invites=checked(await client.from('room_invites').select('*').order('created_at',{ascending:false}));const names=new Map(people.map(p=>[p.id,p]));return {friends:rows.map(f=>{const id=f.sender===u.id?f.receiver:f.sender;return {...names.get(id),id,requestId:f.id,state:f.state,direction:f.sender===u.id?'outgoing':'incoming'};}),invites:invites.map(i=>({...i,sender:names.get(i.sender)?.username||'Friend'}))};}
