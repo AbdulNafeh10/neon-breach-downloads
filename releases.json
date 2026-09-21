@@ -1,10 +1,10 @@
 {
-  "version": "3.12.0",
-  "notes": "Play Together: map voting between rounds, private team pings with acknowledgments, safer randomized spawns, adjustable 1.5-second spawn protection, randomized Hill zones and next-zone warnings, six saved match presets, room loadout selection and cleaner menu transitions. Everyone in a room must update.",
+  "version": "3.13.0",
+  "notes": "Mouse capture recovery after Esc and match entry; custom keyboard, mouse and controller controls; Team King of the Hill; clear ally/enemy markers; corrected health pickup locations on all maps; cleaner menu overlays and regeneration labels; stronger shotgun pump sound. Everyone in a room must update.",
   "platforms": {
     "win32": {
-      "url": "https://github.com/AbdulNafeh10/neon-breach-downloads/releases/download/v3.12.0/NEON-BREACH-Setup-3.12.0.exe",
-      "sha256": "13ba1b2a1e5a1cce9ce698a49131755b9f98bad7d0dc79a3d73a649fe622b526"
+      "url": "https://github.com/AbdulNafeh10/neon-breach-downloads/releases/download/v3.13.0/NEON-BREACH-Setup-3.13.0.exe",
+      "sha256": "f914892d760afca6b107ac26569c92ccc28b669d72a2ab6004d30db5efa225b1"
     }
   }
 }

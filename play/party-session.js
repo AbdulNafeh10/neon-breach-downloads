@@ -1,4 +1,4 @@
-import {MAPS} from './rules.js';
+import {MAPS,isTeamMode,isHillMode} from './rules.js';
 import {MAP_BOUNDS} from './map-layouts.js';
 // Reliable room actions. Only the host assigns authors, recipients and deadlines.
 export class PartySession{
@@ -17,7 +17,7 @@ export class PartySession{
   return false;
  }
  mark(data){if(this.link.host)this.acceptMark(this.link.side,data);else this.link.send({t:'mark',...data});}
- allies(side){const l=this.link,member=l.members.find(m=>m.side===side);return l.members.filter(m=>m.side===side||l.rules.mode==='tdm'&&m.team===member?.team);}
+ allies(side){const l=this.link,member=l.members.find(m=>m.side===side);return l.members.filter(m=>m.side===side||isTeamMode(l.rules)&&m.team===member?.team);}
  relay(side,data){const l=this.link;for(const m of this.allies(side)){if(m.side===l.side)l.emit('tactical',data);else l.send(data,m.side);}}
  acceptMark(side,data,now=Date.now()){
   const l=this.link,member=l.members.find(m=>m.side===side);if(!member||!l.locked||now-(this.lastAction.get(side)||0)<600)return;

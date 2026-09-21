@@ -14,7 +14,7 @@ export function weaponSound(context,noise,destination,index,volume=1,pan=0,envir
  burst(p.crack,0,index===3?.024:.045,p.power,'highpass');burst(1600,0,p.tail,p.power*.8,'bandpass');burst(370,.006,p.tail*.9,p.power*.65);tone(p.body,p.body*.55,0,index===3?.045:.13,p.power*.5);
  // Delayed reflections distinguish the metal foundry and the wider outdoor arenas.
  const reflections=environment==='foundry'?[.055,.12]:environment==='citadel'?[.085,.19]:[.11];for(const [i,d]of reflections.entries())burst(1150,d,p.tail*.8,p.power*.14/(i+1),'bandpass');
- if(index===1){burst(680,.012,.34,.35);burst(2600,.22,.11,.18,'bandpass');burst(3600,.45,.065,.2,'bandpass');tone(310,270,.46,.026,.07,'triangle');}
+ if(index===1){burst(680,.008,.28,.4);tone(88,42,.005,.19,.24);burst(5200,0,.023,.32,'highpass');burst(1750,.21,.085,.26,'bandpass',1.2);burst(3300,.245,.045,.2,'highpass');tone(240,110,.23,.045,.09,'triangle');burst(2100,.42,.065,.31,'bandpass',1.4);burst(4800,.455,.022,.23,'highpass');tone(390,180,.43,.038,.1,'triangle');}
  else if(index===2){burst(950,.025,.32,.24);burst(3000,.2,.045,.13,'bandpass');burst(1850,.36,.1,.15,'bandpass');burst(4300,.68,.045,.13,'highpass');}
  else if(index===3){burst(2400,.024,.022,.12,'bandpass');}
  else if(index===4){burst(600,.015,.18,.28);burst(3700,.05,.025,.23,'bandpass');burst(2200,.13,.035,.18,'highpass');}
