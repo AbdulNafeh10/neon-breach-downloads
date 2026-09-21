@@ -1,10 +1,10 @@
 {
-  "version": "3.14.0",
-  "notes": "Clearer health/shield/bonus armor panel, stronger shield-break visuals and audio, quieter movement and corrected stair landing sounds. Squad bots: add and remove bots between rounds, assign teams, select difficulty and play Team Deathmatch or Team Hill with friends and bots. Bots ready automatically and share movement, shots, damage and respawns across the room. Includes all 3.13 control, mouse capture, HUD, pickup and audio improvements. Everyone in a room must update.",
+  "version": "3.15.0",
+  "notes": "Visual squad lobby with skins, callsigns and ready states; saved callsign changes and live lobby identity updates; one Match Setup entry; presets preserve visible mode, map, player limit and rules; refined original pump shotgun audio. Includes team bots, clearer vitals, shield shatter and quieter stair movement. Everyone in a room must update.",
   "platforms": {
     "win32": {
-      "url": "https://github.com/AbdulNafeh10/neon-breach-downloads/releases/download/v3.14.0/NEON-BREACH-Setup-3.14.0.exe",
-      "sha256": "fd013d20eb3d1077888ed1d70ebc0a1df2962e7c2a4afa10253d7c8a3878b836"
+      "url": "https://github.com/AbdulNafeh10/neon-breach-downloads/releases/download/v3.15.0/NEON-BREACH-Setup-3.15.0.exe",
+      "sha256": "53a7a354aaa429c96cb0b931eb5b6fdde3e06a37ca5abc5d3fcbd309887884b7"
     }
   }
 }
