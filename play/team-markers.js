@@ -1,5 +1,16 @@
 import * as T from 'three';
-import {sameTeam,isTeamMode} from './rules.js';
+import {isTeamMode} from './rules.js';
 import {wallDistance} from './core.js';
-export function mountTeamMarkers(){const root=document.createElement('div');root.id='team-markers';document.body.append(root);const markers=new Map(),pos=new T.Vector3();let last=0;
- return {update({players,local,camera,rules,mode,paused,name,now}){root.hidden=mode!=='match'||paused||!isTeamMode(rules);if(root.hidden)return;if(now-last<.08)return;last=now;const live=new Set();for(const p of players){if(p===local)continue;live.add(p.side);let el=markers.get(p.side);if(!el){el=document.createElement('span');root.append(el);markers.set(p.side,el);}const ally=sameTeam(local,p,rules),dx=p.x-camera.position.x,dy=p.y+1.4-camera.position.y,dz=p.z-camera.position.z,len=Math.hypot(dx,dy,dz);el.hidden=p.dead>0||len>65||wallDistance(camera.position,{x:dx/len,y:dy/len,z:dz/len})<len-.6;if(el.hidden)continue;pos.set(p.x,p.y+2.65,p.z).project(camera);el.hidden=pos.z>1||pos.z< -1||Math.abs(pos.x)>1||Math.abs(pos.y)>1;if(el.hidden)continue;el.className=ally?'team-ally':'team-enemy';el.textContent=(ally?'◇ ALLY · ':'▽ ENEMY · ')+name(p.side);el.style.transform='translate('+((pos.x*.5+.5)*innerWidth)+'px,'+((-pos.y*.5+.5)*innerHeight)+'px) translate(-50%,-100%)';}for(const [side,el]of markers)if(!live.has(side)){el.remove();markers.delete(side);}}};}
+export function mountTeamMarkers(){
+ const root=document.createElement('div');root.id='team-markers';document.body.append(root);const markers=new Map(),pos=new T.Vector3();
+ return {update({players,local,camera,rules,mode,paused,name,now}){
+  root.hidden=mode!=='match'||paused||!isTeamMode(rules);if(root.hidden)return;const live=new Set();
+  for(const p of players){if(p===local)continue;live.add(p.side);let marker=markers.get(p.side);if(!marker){const el=document.createElement('span');root.append(el);marker={el,visibleSince:null};markers.set(p.side,marker);}const {el}=marker,dx=p.x-camera.position.x,dy=p.y+(p.eye||1.65)-camera.position.y,dz=p.z-camera.position.z,len=Math.hypot(dx,dy,dz);
+   const visible=p.dead<=0&&len>.1&&len<65&&wallDistance(camera.position,{x:dx/len,y:dy/len,z:dz/len})>=len-.35;
+   if(!visible){el.hidden=true;marker.visibleSince=null;continue;}if(marker.visibleSince===null)marker.visibleSince=now;
+   pos.set(p.x,p.y+(p.height||1.8)+.32,p.z).project(camera);el.hidden=now-marker.visibleSince<.06||pos.z>1||pos.z< -1||Math.abs(pos.x)>1||Math.abs(pos.y)>1;if(el.hidden)continue;
+   el.className=p.team===0?'team-dot-cyan':'team-dot-amber';el.setAttribute('aria-label',(p.team===local.team?'Teammate: ':'Opponent: ')+name(p.side));el.style.transform='translate('+((pos.x*.5+.5)*innerWidth)+'px,'+((-pos.y*.5+.5)*innerHeight)+'px) translate(-50%,-50%)';
+  }
+  for(const [side,m]of markers)if(!live.has(side)){m.el.remove();markers.delete(side);}
+ }};
+}

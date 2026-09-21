@@ -1,10 +1,10 @@
 {
-  "version": "3.15.0",
-  "notes": "Visual squad lobby with skins, callsigns and ready states; saved callsign changes and live lobby identity updates; one Match Setup entry; presets preserve visible mode, map, player limit and rules; refined original pump shotgun audio. Includes team bots, clearer vitals, shield shatter and quieter stair movement. Everyone in a room must update.",
+  "version": "3.16.0",
+  "notes": "Small steady Cyan/Amber player dots replace large floating labels. The Tab scoreboard groups teams into tinted sections, shows team totals and highlights your team and row. Improved marker camera tracking and reduced scoreboard redraws.",
   "platforms": {
     "win32": {
-      "url": "https://github.com/AbdulNafeh10/neon-breach-downloads/releases/download/v3.15.0/NEON-BREACH-Setup-3.15.0.exe",
-      "sha256": "53a7a354aaa429c96cb0b931eb5b6fdde3e06a37ca5abc5d3fcbd309887884b7"
+      "url": "https://github.com/AbdulNafeh10/neon-breach-downloads/releases/download/v3.16.0/NEON-BREACH-Setup-3.16.0.exe",
+      "sha256": "d6c6d27190285f6d6012314990b018fb914b74ae216587a2671a19f57d23f72c"
     }
   }
 }
