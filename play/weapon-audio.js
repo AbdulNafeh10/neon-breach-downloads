@@ -22,11 +22,14 @@ export function weaponSound(context,noise,destination,index,volume=1,pan=0,envir
 }
 export function gameSound(context,noise,destination,kind,volume=1,pan=0,{gun=0,stage=0,map='rift'}={}){
  const {tone,burst}=voices(context,noise,destination,volume,pan);
- if(kind==='shieldbreak'){burst(6400,0,.16,.22,'highpass');for(const [i,f]of [1400,2100,2900].entries())tone(f,f*.45,i*.018,.18,.06,'triangle');}
- else if(kind==='step'){burst(map==='foundry'?2300:map==='citadel'?950:1400,0,.07,.07,'bandpass');tone(map==='foundry'?160:95,65,0,.055,.04);burst(4000,.018,.035,.024,'highpass');}
+ if(kind==='shieldbreak'){burst(4600,0,.045,.3,'highpass');burst(1900,.015,.16,.19,'bandpass',1.2);burst(7200,.04,.22,.09,'highpass');tone(320,75,0,.17,.08);for(const [i,f]of [1700,2550,3400,4600].entries())tone(f,f*.62,.012+i*.022,.14,.045,'triangle');}
+ else if(kind==='step'){const metal=['foundry','dockyard'].includes(map);burst(metal?1150:650,0,.055,.036,'bandpass',.45);burst(260,.004,.065,.028);tone(metal?112:82,55,0,.045,.014);burst(1800,.018,.028,.008,'bandpass');}
+ else if(kind==='land'){burst(280,0,.15,.1);tone(78,42,0,.12,.055);burst(1050,.018,.08,.027,'bandpass',.4);}
+ else if(kind==='slide'){burst(650,0,.24,.052,'bandpass',.4);burst(240,.025,.17,.025);}
+ else if(kind==='dash'){burst(800,0,.16,.055,'bandpass',.35);burst(220,.01,.12,.03);}
  else if(kind==='reload'){const weight=gun===1||gun===4?.8:.5;if(stage===0){burst(2400,0,.045,.16,'bandpass');tone(460,390,0,.025,.035,'triangle');}else if(stage===1){burst(850,0,.09,.16*weight);burst(3300,.06,.03,.15,'bandpass');}else{burst(1800,0,.065,.21);burst(5200,.045,.035,.13,'highpass');tone(210,160,.01,.04,.05);}}
  else if(kind==='hit'||kind==='head'){burst(4100,0,.025,.09,'bandpass');tone(kind==='head'?1700:1050,kind==='head'?1400:850,0,.045,.06,'triangle');if(kind==='head')tone(2100,1900,.035,.065,.045);}
- else if(kind==='hurt'){burst(480,0,.16,.21);tone(75,48,0,.13,.12);}
+ else if(kind==='hurt'){burst(480,0,.12,.12);tone(75,48,0,.1,.065);}
  else if(kind==='jump'){burst(900,0,.1,.08,'bandpass');tone(120,85,0,.08,.03);}
  else if(kind==='kill'){tone(660,660,0,.1,.055,'triangle');tone(990,990,.055,.15,.045,'triangle');burst(3800,0,.03,.06,'highpass');}
  else if(kind==='start'){for(const [i,f]of [330,440,660].entries())tone(f,f,i*.065,.16,.055,'triangle');}

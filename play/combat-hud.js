@@ -2,7 +2,7 @@
 export function incomingBearing(player,source){return Math.atan2(source.x-player.x,-(source.z-player.z))+player.yaw;}
 export function ammoState(player,weapon){return {low:player.ammo[player.gun]<=Math.max(1,Math.floor(weapon.cap*.2)),progress:player.reload>0?Math.max(0,Math.min(1,1-player.reload/weapon.reload)):0};}
 export function mountCombatHUD(doc){
- const root=doc.createElement('div');root.id='combat-assist';root.innerHTML='<div id="zone-callout"></div><div class="incoming-bearing" hidden aria-label="Direction of incoming damage"><i></i></div><div class="reload-meter" hidden><span></span><div><i></i></div></div><section class="death-recap" hidden><small>ELIMINATED BY</small><strong></strong><p></p><span></span></section>';doc.body.append(root);
+ const root=doc.createElement('div');root.id='combat-assist';root.innerHTML='<div id="zone-callout"></div><div class="incoming-bearing" hidden aria-label="Direction of incoming damage"><i></i></div><div class="reload-meter" hidden><span></span><div><i></i></div></div><section class="death-recap" hidden><small>ELIMINATED BY</small><strong></strong><p></p><span></span></section>';doc.body.append(root);doc.querySelector('.tactical')?.append(root.querySelector('#zone-callout'));
  const bearing=root.querySelector('.incoming-bearing'),reload=root.querySelector('.reload-meter'),recap=root.querySelector('.death-recap');let last=null,at=0;
  return {
  hit({source,name,gun,amount,killed},now){last={source:{x:source.x,z:source.z},name,gun,amount,killed};at=now;},

@@ -64,7 +64,7 @@ export function movePlayer(p,input,dt){
  for(const b of BLOCKS)if(p.vy>0&&overlapXZ(p,b,.29)&&oldY+p.height<=b.y+.04&&p.y+p.height>b.y){p.y=b.y-p.height;p.vy=0;}
 
  for(const b of BLOCKS)if(overlapXZ(p,b,.29)&&oldY>=b.y+b.h-.08)ground=Math.max(ground,b.y+b.h);
- if(p.y<=ground&&p.vy<=0){p.y=ground;p.vy=0;p.grounded=true}else{p.grounded=false}
+ if((p.y<=ground||p.grounded&&oldY>=ground&&oldY-ground<=.31)&&p.vy<=0){p.y=ground;p.vy=0;p.grounded=true}else{p.grounded=false}
  p.padCd=Math.max(0,p.padCd-dt);if(p.padCd<=0&&p.grounded&&p.y<.2&&JUMP_PADS.some(a=>Math.hypot(p.x-a.x,p.z-a.z)<.95)){p.vy=12.5;p.grounded=false;p.padCd=1.2;p.slide=0;}
  p.walk+=Math.hypot(p.vx,p.vz)*dt;
 }

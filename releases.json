@@ -1,10 +1,10 @@
 {
-  "version": "3.13.0",
-  "notes": "Mouse capture recovery after Esc and match entry; custom keyboard, mouse and controller controls; Team King of the Hill; clear ally/enemy markers; corrected health pickup locations on all maps; cleaner menu overlays and regeneration labels; stronger shotgun pump sound. Everyone in a room must update.",
+  "version": "3.14.0",
+  "notes": "Clearer health/shield/bonus armor panel, stronger shield-break visuals and audio, quieter movement and corrected stair landing sounds. Squad bots: add and remove bots between rounds, assign teams, select difficulty and play Team Deathmatch or Team Hill with friends and bots. Bots ready automatically and share movement, shots, damage and respawns across the room. Includes all 3.13 control, mouse capture, HUD, pickup and audio improvements. Everyone in a room must update.",
   "platforms": {
     "win32": {
-      "url": "https://github.com/AbdulNafeh10/neon-breach-downloads/releases/download/v3.13.0/NEON-BREACH-Setup-3.13.0.exe",
-      "sha256": "f914892d760afca6b107ac26569c92ccc28b669d72a2ab6004d30db5efa225b1"
+      "url": "https://github.com/AbdulNafeh10/neon-breach-downloads/releases/download/v3.14.0/NEON-BREACH-Setup-3.14.0.exe",
+      "sha256": "fd013d20eb3d1077888ed1d70ebc0a1df2962e7c2a4afa10253d7c8a3878b836"
     }
   }
 }
