@@ -1,10 +1,10 @@
 {
-  "version": "3.16.0",
-  "notes": "Small steady Cyan/Amber player dots replace large floating labels. The Tab scoreboard groups teams into tinted sections, shows team totals and highlights your team and row. Improved marker camera tracking and reduced scoreboard redraws.",
+  "version": "3.17.0",
+  "notes": "Clear red enemy and mint teammate markers, readable Hill guidance and next-zone previews, exact power-up status, host-authoritative Surge damage, assists, and objective contribution stats.",
   "platforms": {
     "win32": {
-      "url": "https://github.com/AbdulNafeh10/neon-breach-downloads/releases/download/v3.16.0/NEON-BREACH-Setup-3.16.0.exe",
-      "sha256": "d6c6d27190285f6d6012314990b018fb914b74ae216587a2671a19f57d23f72c"
+      "url": "https://github.com/AbdulNafeh10/neon-breach-downloads/releases/download/v3.17.0/NEON-BREACH-Setup-3.17.0.exe",
+      "sha256": "0cb4aea7b32f1bcec737902eb4e337751568f295c8e929a45c55b15d2b52d0c7"
     }
   }
 }
