@@ -1,10 +1,10 @@
 {
-  "version": "3.17.0",
-  "notes": "Clear red enemy and mint teammate markers, readable Hill guidance and next-zone previews, exact power-up status, host-authoritative Surge damage, assists, and objective contribution stats.",
+  "version": "3.18.0",
+  "notes": "Smarter squad bots choose vulnerable opponents, use team-aware Hill strategy, route around blocked sightlines, and fight with weapon-specific movement and difficulty behavior.",
   "platforms": {
     "win32": {
-      "url": "https://github.com/AbdulNafeh10/neon-breach-downloads/releases/download/v3.17.0/NEON-BREACH-Setup-3.17.0.exe",
-      "sha256": "0cb4aea7b32f1bcec737902eb4e337751568f295c8e929a45c55b15d2b52d0c7"
+      "url": "https://github.com/AbdulNafeh10/neon-breach-downloads/releases/download/v3.18.0/NEON-BREACH-Setup-3.18.0.exe",
+      "sha256": "4fb118f2c1facbb65d762b6b021a1f63f84460c479100a04b14aa7533970b603"
     }
   }
 }
