@@ -1,10 +1,10 @@
 {
-  "version": "3.18.0",
-  "notes": "Smarter squad bots choose vulnerable opponents, use team-aware Hill strategy, route around blocked sightlines, and fight with weapon-specific movement and difficulty behavior.",
+  "version": "3.18.1",
+  "notes": "Fixes bots orbiting objectives: they now hold the active Hill, stop indefinite side-stepping, and reset stalled navigation routes.",
   "platforms": {
     "win32": {
-      "url": "https://github.com/AbdulNafeh10/neon-breach-downloads/releases/download/v3.18.0/NEON-BREACH-Setup-3.18.0.exe",
-      "sha256": "4fb118f2c1facbb65d762b6b021a1f63f84460c479100a04b14aa7533970b603"
+      "url": "https://github.com/AbdulNafeh10/neon-breach-downloads/releases/download/v3.18.1/NEON-BREACH-Setup-3.18.1.exe",
+      "sha256": "cf8de8b8b0d1f1fd177b7c6acc00dd7cc34c3ab7b1f368ba43d1f167d0a179bc"
     }
   }
 }
